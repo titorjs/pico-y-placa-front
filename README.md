@@ -1,59 +1,101 @@
-# MiPrimeraApp
+# Pico y Placa Checker (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.0.
+Este proyecto es una aplicación de una sola página (SPA) desarrollada con Angular. Permite a los usuarios consultar si un vehículo puede circular según las restricciones de "Pico y Placa", basándose en su número de placa, una fecha y una hora específicas.
 
-## Development server
+La aplicación cuenta con un formulario reactivo con validaciones en tiempo real y consume una API de backend para obtener el estado de la restricción.
 
-To start a local development server, run:
+## Características
 
-```bash
-ng serve
+-   **Formulario Reactivo:** Campos para placa, fecha y hora con valores por defecto inteligentes.
+    
+-   **Validación de Datos:**
+    
+    -   Formato de placa (AAA1234).
+        
+    -   Campos requeridos.
+        
+    -   Verificación de que la fecha y hora no sean en el pasado.
+        
+-   **Consumo de API:** Se comunica con un backend para verificar las restricciones.
+    
+-   **Visualización de Resultados:** Muestra de forma clara si el vehículo puede o no circular.
+    
+-   **Manejo de Errores:** Informa al usuario sobre errores de validación o problemas de comunicación con la API.
+
+## Instalación y Desarrollo Local
+
+Para correr este proyecto en un entorno de desarrollo, sigue estos pasos:
+
+1.  **Prerrequisitos:**
+    
+    -   Node.js (v18 o superior)
+        
+    -   Angular CLI (`npm install -g @angular/cli`)
+        
+    -   Tener la **API de backend de Java** corriendo en `http://localhost:8080`, repo: [titorjs/picoyplac](https://github.com/titorjs/picoyplac).
+        
+2.  **Clonar el repositorio:**
+    
+    Bash
+    
+    ```
+    git clone <url-del-repositorio>
+    cd <nombre-del-repositorio>
+    ```
+    
+3.  **Instalar dependencias:**
+    
+    Bash
+    
+    ```
+    npm install
+    ```
+    
+4.  **Configurar el Proxy (Desarrollo):** Para evitar problemas de CORS en desarrollo, el proyecto está configurado para usar un proxy. Para levantarlo, usa el comando:
+    
+    Bash
+    
+    ```
+    ng serve
+    ```
+    
+    La aplicación estará disponible en `http://localhost:4200`.
+    
+
+----------
+
+## Deploy en Producción
+
+Para desplegar esta aplicación, primero debes compilarla para producción.
+
+### 1. Compilar la Aplicación
+
+Ejecuta el siguiente comando. Esto generará una carpeta `dist/` (en este repo, en el disrectorio `dist/` ya se encuentra la versión deployable) con todos los archivos estáticos optimizados.
+
+Bash
+
 ```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 2. Estrategias de Despliegue
 
-## Running unit tests
+#### Servidor Web Estático (Nginx)
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Copia el contenido de la carpeta `dist/pico-y-placa-app/browser/` a la raíz de tu servidor web (ej. `/var/www/html`). Es **crucial** configurar el servidor para que redirija todas las peticiones al `index.html` y así el enrutamiento de Angular funcione.
 
-```bash
-ng test
+**Ejemplo de configuración en `nginx.conf`:**
+
+Nginx
+
 ```
+server {
+    listen 80;
+    server_name tu-dominio.com;
+    root /var/www/html;
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

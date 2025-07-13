@@ -1,0 +1,49 @@
+<div class="checker-container">
+  <h2>Consulta de Pico y Placa</h2>
+  
+  <form [formGroup]="picoPlacaForm" (ngSubmit)="onSubmit()">
+    
+    <div class="form-field">
+      <label for="placa">Placa del vehículo:</label>
+      <input id="placa" type="text" formControlName="placa" placeholder="ABC1234" maxlength="7">
+      <div *ngIf="picoPlacaForm.get('placa')?.invalid && picoPlacaForm.get('placa')?.touched" class="error-message">
+        <small *ngIf="picoPlacaForm.get('placa')?.errors?.['required']">La placa es requerida.</small>
+        <small *ngIf="picoPlacaForm.get('placa')?.errors?.['pattern']">El formato debe ser 3 letras mayúsculas y 4 números (ej. ABC1234).</small>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="fecha">Fecha:</label>
+      <input id="fecha" type="date" formControlName="fecha">
+       <div *ngIf="picoPlacaForm.get('fecha')?.invalid && picoPlacaForm.get('fecha')?.touched" class="error-message">
+        <small>La fecha es requerida.</small>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="hora">Hora:</label>
+      <input id="hora" type="time" formControlName="hora">
+       <div *ngIf="picoPlacaForm.get('hora')?.invalid && picoPlacaForm.get('hora')?.touched" class="error-message">
+        <small>La hora es requerida.</small>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="isLoading">
+      {{ isLoading ? 'Consultando...' : 'Consultar' }}
+    </button>
+  </form>
+
+  <div class="results-container">
+    <div *ngIf="consultaResult" class="result-card" [ngClass]="{'allowed': consultaResult.libre, 'restricted': !consultaResult.libre}">
+      <h3>Resultado para la placa {{ consultaResult.placa | uppercase }}</h3>
+      <p *ngIf="consultaResult.libre">✅ El vehículo **puede** circular.</p>
+      <p *ngIf="!consultaResult.libre">❌ El vehículo **no puede** circular.</p>
+      <small>Fecha y Hora: {{ consultaResult.fechaHora | date:'full' }}</small>
+    </div>
+
+    <div *ngIf="consultaError" class="result-card error">
+       <h3>Error en la Consulta</h3>
+       <p>{{ consultaError.error }}</p>
+    </div>
+  </div>
+</div>
