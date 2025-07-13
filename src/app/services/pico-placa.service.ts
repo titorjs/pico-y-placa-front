@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PicoPlacaResponse, ApiError } from '../pico-placa-checker/pico-placa.interfaces';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PicoPlacaService {
   // La URL base de tu API
-  private apiUrl = 'http://localhost:8080/api/v1/picoPlaca';
+  private apiUrl = `${environment.apiUrl}/v1/picoPlaca`;
 
   // Inyectamos el cliente HTTP de Angular en el constructor
   constructor(private http: HttpClient) { }

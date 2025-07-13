@@ -4,6 +4,9 @@ Este proyecto es una aplicación de una sola página (SPA) desarrollada con Angu
 
 La aplicación cuenta con un formulario reactivo con validaciones en tiempo real y consume una API de backend para obtener el estado de la restricción.
 
+Diagrama: https://s.icepanel.io/OqVC5HW8JoIDeB/MElW  
+
+
 ## Características
 
 -   **Formulario Reactivo:** Campos para placa, fecha y hora con valores por defecto inteligentes.
